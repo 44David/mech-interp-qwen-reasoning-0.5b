@@ -1,0 +1,11 @@
+[project]
+name = "mech-interp-qwen-reasoning-0-5b"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "circuitsvis>=1.43.3",
+    "plotly-express>=0.4.1",
+    "transformer-lens>=2.16.1",
+]
