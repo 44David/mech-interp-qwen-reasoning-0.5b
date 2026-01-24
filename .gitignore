@@ -10,3 +10,7 @@ wheels/
 .venv
 
 /qwen-reasoning-0.5b-v1
+
+interp-dataset.jsonl
+
+uv.lock
