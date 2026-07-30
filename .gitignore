@@ -9,8 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-/qwen-reasoning-0.5b-v1
-
-interp-dataset.jsonl
+*.jsonl
 
 uv.lock
