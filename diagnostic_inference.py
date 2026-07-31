@@ -18,18 +18,18 @@ def sequence_log_probability(logits: torch.Tensor, token_ids: list[int],) -> flo
 
 def main():
     # variables
-    rows = load_jsonl(Path("raw_prompt_samples.jsonl"))
+    rows = load_jsonl(Path("math-dataset.jsonl"))
     model = "44David/qwen-0.5b-reasoning-v2"
     device = "cpu"
     output_path = Path("routing_results.jsonl")
     activations_path = Path("routing_activations.npz")
     max_new_tokens=256
-    
+
     tokenizer = AutoTokenizer.from_pretrained(
             model,
             trust_remote_code=True,
         )
-    
+
     model = AutoModelForCausalLM.from_pretrained(
         model,
         torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32,
