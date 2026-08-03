@@ -10,5 +10,8 @@ wheels/
 .venv
 
 *.jsonl
+*.npz
+*/
+
 
 uv.lock

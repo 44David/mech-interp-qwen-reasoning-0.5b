@@ -8,8 +8,9 @@ import numpy as np
 # config
 ACTIVATIONS_PATH = Path("all_routing_activations.npz")
 METADATA_PATH = Path("all_routing_results_relabelled.jsonl")
-LAYERS = [0, 12, 24]
+LAYERS = [0, 1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 OUTPUT_DIR = Path("pca_plots")
+SAVE_CSV_TABLES = True
 
 
 def load_rows(path: Path) -> list[dict]:
@@ -93,6 +94,21 @@ def plot_by_label(points: np.ndarray, labels: list[str], title: str, explained_r
     plt.close(fig)
 
 
+def save_projection_table(rows: list[dict], points: np.ndarray, output_path: Path) -> None:
+    with output_path.open("w", encoding="utf-8") as file:
+        file.write("id,activation_key,category,used_think,pc1,pc2\n")
+
+        for row, point in zip(rows, points):
+            file.write(
+                f'{json.dumps(row.get("id", ""))},'
+                f'{json.dumps(row.get("activation_key", ""))},'
+                f'{json.dumps(str(row.get("category", "unknown")))},'
+                f'{json.dumps(bool(row.get("used_think", False)))},'
+                f'{point[0]:.10f},'
+                f'{point[1]:.10f}\n'
+            )
+
+
 def main() -> None:
     rows = load_rows(METADATA_PATH)
     rows, activations = collect_layer_matrix(rows, ACTIVATIONS_PATH)
@@ -129,6 +145,13 @@ def main() -> None:
             explained_ratio=explained_ratio,
             output_path=OUTPUT_DIR / f"layer_{layer:02d}_by_used_think.png",
         )
+
+        if SAVE_CSV_TABLES:
+            save_projection_table(
+                rows=rows,
+                points=points,
+                output_path=OUTPUT_DIR / f"layer_{layer:02d}_pca_table.csv",
+            )
 
         print(f"Saved PCA plots for layer {layer} to {OUTPUT_DIR}")
 
